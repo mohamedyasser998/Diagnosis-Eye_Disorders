@@ -1,0 +1,30 @@
+{% extends 'base.html'%}
+{% block title%} Consult Post {% endblock title %}
+
+{% block content%}
+  <div class="container-fluid">
+    <h1>{{consults.user.get_full_name}}</h1>
+    <h2>{{consults.symptoms}}</h2>
+  </div>
+  <div class="container-fluid">
+  {% if not consults.comments.all %}
+    <p>No Comments Yet.. </p>
+    {% if user.is_authenticated %}
+      <p><a href="{% url 'add_comment' consults.id %}">Add One</a></p>
+    {% else %}
+    <p><a href="{% url 'login' %}">Login</a> to comment</p>
+    {% endif %}
+  {% else %}
+    {% if user.is_authenticated%}
+      <a href="{% url 'add_comment' consults.id %}">Add Comment</a><br>
+      {% else %}
+      <p><a href="{% url 'login' %}">Login</a> to comment</p>
+    {% endif %}
+      {% for comment in consults.comments.all reversed %}
+      <h5>{{comment.author.get_full_name}}</h5>
+      <h6>{{comment.body}}</h6>
+      {% endfor %}
+  {% endif %}
+  </div>
+{% endblock content%}
+

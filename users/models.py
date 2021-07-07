@@ -1,10 +1,13 @@
 from django.db import models
 
+from diagnose.models import Illness  # , Medicine
+
 # from django.urls import reverse
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import ugettext_lazy as _
-from django.utils import timezone
+
+# from django.utils import timezone
 
 # from django.conf import settings
 # from django.db.models.signals import post_save
@@ -57,10 +60,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_("email address"), unique=True)
     first_name = models.CharField(_("first name"), max_length=30, blank=True)
     last_name = models.CharField(_("last name"), max_length=30, blank=True)
+    illness = models.ManyToManyField(Illness, blank=True)
+    # medicine = models.ManyToManyField(Medicine)
     is_active = models.BooleanField(_("active"), default=True)
     is_staff = models.BooleanField(_("is staff"), default=False)
-    admin = models.BooleanField(_("is admin"), default=False)
-    date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
+    # admin = models.BooleanField(_("is admin"), default=False)
+    # date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["first_name", "last_name"]

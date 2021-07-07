@@ -1,57 +1,31 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
+
+# from django.contrib.auth.admin import UserAdmin
 from .models import User, Patient, Doctor
-from django.contrib.auth.forms import (
-    UserCreationForm,
-    UserChangeForm,
-)
+
+# from django.contrib.auth.forms import (
+#     UserCreationForm,
+#     UserChangeForm,
+# )
+# from django.contrib.admin.views.main import ChangeList
+# from .forms import IllnessChangeForm
 
 # Register your models here.
 
 
-@admin.register(User)
-class UserAdmin(UserAdmin):
-    add_form = UserCreationForm
-    form = UserChangeForm
-    list_display = (
-        "email",
-        "is_active",
-    )
-    list_filter = (
-        "email",
-        "is_active",
-    )
-    fieldsets = (
-        (None, {"fields": ("email", "password", "first_name", "last_name", "type")}),
-        ("Permissions", {"fields": ("is_staff", "is_active")}),
-    )
-    add_fieldsets = (
-        (
-            None,
-            {
-                "classes": ("wide",),
-                "fields": (
-                    "email",
-                    "password1",
-                    "password2",
-                    "is_staff",
-                    "is_active",
-                    "type",
-                    "first_name",
-                    "last_name",
-                ),
-            },
-        ),
-    )
-    search_fields = ("email",)
-    ordering = ("email",)
+admin.site.register(User)
+admin.site.register(Patient)
+admin.site.register(Doctor)
+# @admin.register(User)
+# class UserAdmin(UserAdmin):
+#     pass
 
 
-@admin.register(Patient)
-class PatientAdmin(UserAdmin):
-    readonly_fields = ("type",)
+# @admin.register(Patient)
+# class PatientAdmin(UserAdmin):
+#     readonly_fields = ("type",)
 
 
-@admin.register(Doctor)
-class DoctorAdmin(UserAdmin):
-    readonly_fields = ("type",)
+# @admin.register(Doctor)
+# class DoctorAdmin(UserAdmin):
+#     readonly_fields = ("type",)
