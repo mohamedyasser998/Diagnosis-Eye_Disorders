@@ -14,7 +14,18 @@
       <div class="col"><a href="{% url 'post_detail' consult.id%}">{{ consult.user.get_full_name }}</a>
       <br>
         {% comment %} {% for consult in consults.split_consults %} {% endcomment %}
-						<li>{{consult.symptoms}}</li>
+
+<!--              {% for cons in consult.symptoms|cut:"'"|cut:"]"|cut:"[" %}-->
+<!--              <li>{{cons}}</li>-->
+<!--              {% endfor %}-->
+          <ol>
+           {% for cons in consult.symptoms|split:"," %}
+
+						<li>{{cons|cut:"'"|cut:"]"|cut:"["}}</li>
+
+          {% endfor %}
+              </ol>
+
 				{% comment %} {% endfor %} {% endcomment %}
       </div>
     {% endfor %}

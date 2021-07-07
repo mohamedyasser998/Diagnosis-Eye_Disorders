@@ -3,8 +3,18 @@
 
 {% block content%}
   <div class="container-fluid">
+    <ol class="list-unstyled department-service">
+    {% if consults.split_symptoms != None %}
     <h1>{{consults.user.get_full_name}}</h1>
-    <h2>{{consults.symptoms}}</h2>
+       <ol>
+    {% for Symptoms in consults.split_symptoms  %}
+
+    <li><i class="icofont-check mr-2"></i>{{Symptoms|cut:"'"|cut:"]"|cut:"["}}</li>
+
+{% endfor %}
+          </ol>
+					{% endif %}
+    </ol>
   </div>
   <div class="container-fluid">
   {% if not consults.comments.all %}
