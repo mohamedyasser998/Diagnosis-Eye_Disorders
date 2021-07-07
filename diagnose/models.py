@@ -5,6 +5,7 @@ from django.db import models
 # from users.models import User
 from multiselectfield import MultiSelectField
 from django.utils.translation import ugettext_lazy as _
+# from users.models import User
 
 MY_CHOICES = (
     (
@@ -137,3 +138,17 @@ class Comment(models.Model):
 
     def __str__(self):
         return "%s - %s" % (self.post, self.author)
+
+class Appointment(models.Model):
+    date = models.DateField()
+    time = models.TimeField()
+    status = models.CharField(
+        choices=[("Pending", "Pending"), ("Completed", "Completed")], max_length=10
+    )
+    patient = models.ForeignKey("users.User", on_delete=models.CASCADE, related_name="patient")
+    doctor = models.ForeignKey("users.User", on_delete=models.CASCADE, related_name="doctor")
+
+    def __str__(self):
+        return "Patient - {} Doc- {} At {} {}".format(
+            self.patient, self.doctor, self.date, self.time
+        )

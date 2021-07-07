@@ -7,7 +7,8 @@ from django import forms
 # from django.forms.widgets import Select
 # from django.forms import ModelForm
 
-from .models import Consults, Comment, MY_CHOICES  # , Medicine
+from .models import Consults, Comment, MY_CHOICES,Appointment
+from users.models import User
 
 
 # choices = [MY_CHOICES]
@@ -62,3 +63,19 @@ class DiagnosisForm(forms.ModelForm):
         widgets = {
             "user": forms.HiddenInput(),
         }
+class AppointmentForm(forms.ModelForm):
+    class Meta:
+        model = Appointment
+        fields = "__all__"
+        widgets = {
+            "patient": forms.HiddenInput(),
+            # "doctor": forms.HiddenInput(),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(AppointmentForm, self).__init__(*args, **kwargs)
+        if self.instance:
+            # self.fields['patient'].queryset = User.objects.filter(user_type="P")
+            self.fields["doctor"].queryset = User.objects.filter(type="DOCTOR")
+            self.fields["date"].label = "Date (YYYY-MM-DD)"
+            self.fields["time"].label = "Time 24 hr (HH:MM)"

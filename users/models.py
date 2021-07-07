@@ -1,6 +1,6 @@
 from django.db import models
 
-from diagnose.models import Illness  # , Medicine
+from diagnose.models import Illness
 
 # from django.urls import reverse
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin

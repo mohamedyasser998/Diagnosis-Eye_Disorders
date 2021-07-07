@@ -3,8 +3,8 @@ from django.shortcuts import render, redirect  # , get_object_or_404
 from django.urls import reverse
 
 from django.views.generic import CreateView, ListView, DetailView  # , UpdateView
-from .models import Consults, Comment , Illness  # , Medicine
-from .forms import CheckSymptomsForm, CommentForm, DiagnosisForm
+from .models import Consults, Comment , Illness, Appointment
+from .forms import CheckSymptomsForm, CommentForm, DiagnosisForm ,AppointmentForm
 from django.contrib import messages
 from django.http import HttpResponse
 
@@ -132,3 +132,40 @@ class DiagnosisCreateView(LoginRequiredMixin, CreateView):
         # messages.success(request, 'There are {count} Illness.'.format(count=len(Illness.objects.all())))
         messages.success(request, "Appointment done successfully")
         return redirect("/diag/")
+
+
+class AppointmentCreateView(LoginRequiredMixin, CreateView):
+    login_url = "/users/login/"
+    model = Appointment
+    form_class = AppointmentForm
+    template_name = "appointment_create.html"
+    # success_url = reverse_lazy("AppointmentCreateView")
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial["patient"] = self.request.user
+        # initial["doctor"] = User.objects.get(pk=self.kwargs["pk"])
+        return initial
+
+    def post(self, request, *args, **kwargs):
+        form = AppointmentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Appointment done successfully")
+            return redirect("/appointment/create")
+class AppointmentsForAPatientView(LoginRequiredMixin, ListView):
+    login_url = "/users/login/"
+    # redirect_field_name = 'login'
+    template_name = "appointment_list.html"
+
+    def get_queryset(self):
+        return Appointment.objects.filter(patient=self.request.user)
+
+
+class AppointmentsForADoctorView(LoginRequiredMixin, ListView):
+    login_url = "/users/login/"
+    redirect_field_name = "account:login"
+    template_name = "appointment_list_Doctor.html"
+
+    def get_queryset(self):
+        return Appointment.objects.filter(doctor=self.request.user)

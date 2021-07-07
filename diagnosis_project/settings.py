@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "diagnose",
     "users",
     # 3rd party
+'bootstrap3',
     "multiselectfield",
 ]
 
