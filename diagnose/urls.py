@@ -6,6 +6,7 @@ from .views import (
     ConsultsListView,
     ConsultDetailView,
     CommentCreateView,
+DiagnosisCreateView
 )
 
 urlpatterns = [
@@ -14,4 +15,5 @@ urlpatterns = [
     path("posts", ConsultsListView.as_view(), name="posts"),
     path("posts/<int:pk>/", ConsultDetailView.as_view(), name="post_detail"),
     path("posts/<int:pk>/comment/", CommentCreateView.as_view(), name="add_comment"),
+    path("diag/",DiagnosisCreateView.as_view(), name="check_diagnosis")
 ]

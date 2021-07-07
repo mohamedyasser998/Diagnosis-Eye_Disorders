@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Filling Symptoms{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+    {% endfor %}
+</ul>
+{% endif %}
+<div class="alert alert-primary" role="alert">
+  Check symptoms you have
+</div>
+<div class="form-group"></div>
+      <form action="" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" name="" value="Diagnsose" class= "btn btn-secondary">
+      </form>
+</div>
+{% else %}
+<a class="btn btn-primary" href="{% url 'login' %}" role="button">Login first</a>
+{% endif %}
+{% endblock %}

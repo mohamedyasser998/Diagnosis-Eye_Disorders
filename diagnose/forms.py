@@ -45,3 +45,20 @@ class CommentForm(forms.ModelForm):
                 attrs={"class": "form-control", "rows": 2, "cols": 10}
             ),
         }
+
+class DiagnosisForm(forms.ModelForm):
+    symptoms = forms.MultipleChoiceField(
+        widget=forms.CheckboxSelectMultiple,
+        choices=MY_CHOICES,
+        label="",
+    )
+
+    class Meta:
+        model = Consults
+        fields = (
+            "user",
+            "symptoms",
+        )
+        widgets = {
+            "user": forms.HiddenInput(),
+        }
