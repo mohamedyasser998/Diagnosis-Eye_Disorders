@@ -110,7 +110,7 @@ class DiagnosisCreateView(LoginRequiredMixin, CreateView):
                 q = list(queryset_list)
                 name = q[j]["Name"]
                 q[j]["Name"] = list(q[j]["Symptom"])
-                # print(q[j]["Name"])
+                print(q[j]["Name"])
                 count = 0
                 for i in range(len(form.cleaned_data["symptoms"])):
                     # print(form.cleaned_data['symptoms'])

@@ -31,10 +31,13 @@
                     <a class="nav-link" href="{% url "diagnose:home" %}">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="{% url "diagnose:posts" %}">Posts</a>
+                    <a class="nav-link" href="{% url "diagnose:posts" %}">Consults</a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url "users:about" %}">Doctors</a>
+                </li>
+                 <li class="nav-item active">
+                    <a class="nav-link" href="{% url "diagnose:appointment-create" %}">Create Appointment</a>
                 </li>
                 {% if user.type == "DOCTOR"%}
                   <li class="nav-item active">

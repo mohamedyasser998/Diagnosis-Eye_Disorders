@@ -28,7 +28,7 @@ MY_CHOICES = (
         "lacking typical symptoms like pain,tearing or redness of eyes",
         "lacking typical symptoms like pain,tearing or redness of eyes",
     ),
-    ("Blurred,clouded or dim vision", "Blurred,clouded or dim vision"),
+    ("Blurred clouded or dim vision", "Blurred clouded or dim vision"),
     ("Problem seeing at night", "Problem seeing at night"),
     (
         "Problem seeing through light and glare",
@@ -42,8 +42,8 @@ MY_CHOICES = (
     ("Faded view of colors", "Faded view of colors"),
     ("Tunnel vision", "Tunnel vision"),
     (
-        "Peripheral vision loss, gradually affecting both eyes in most cases",
-        "Peripheral vision loss, gradually affecting both eyes in most cases",
+        "Peripheral vision loss gradually affecting both eyes in most cases",
+        "Peripheral vision loss gradually affecting both eyes in most cases",
     ),
     (
         "Severe pain in eyes accompanied by nausea and vomiting in most cases",
