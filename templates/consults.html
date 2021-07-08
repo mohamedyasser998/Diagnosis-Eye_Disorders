@@ -3,32 +3,27 @@
 {% block title%} Consults {% endblock title %}
 
 {% block content%}
-
-
-{% comment %} {% for consult in object_list %}
-<div class="container">{{consult.symptoms}}</div>
-{% endfor %} {% endcomment %}
+<section>
 <div class="container-fluid">
   <div class="row row-cols-3">
     {% for consult in object_list %}
-      <div class="col"><a href="{% url 'post_detail' consult.id%}">{{ consult.user.get_full_name }}</a>
+      <div class="col"><a href="{% url 'diagnose:post_detail' consult.id%}">{{ consult.user.get_full_name }}</a>
       <br>
-        {% comment %} {% for consult in consults.split_consults %} {% endcomment %}
-
-<!--              {% for cons in consult.symptoms|cut:"'"|cut:"]"|cut:"[" %}-->
-<!--              <li>{{cons}}</li>-->
-<!--              {% endfor %}-->
-          <ol>
-           {% for cons in consult.symptoms|split:"," %}
+          <ul>
+           {% for cons in consult.symptoms|split:", " %}
 
 						<li>{{cons|cut:"'"|cut:"]"|cut:"["}}</li>
 
           {% endfor %}
-              </ol>
-
-				{% comment %} {% endfor %} {% endcomment %}
+              </ul>
+          {% if consult.illness.Name == "None" %}
+          <p>You are fine</p>
+          {% else %}
+          <p>{{ consult.illness.Name }}</p>
+          {% endif %}
       </div>
     {% endfor %}
   </div>
 </div>
+</section>
 {% endblock content%}

@@ -40,8 +40,9 @@ INSTALLED_APPS = [
     "diagnose",
     "users",
     # 3rd party
-'bootstrap3',
+    "bootstrap3",
     "multiselectfield",
+    "phonenumber_field",
 ]
 
 AUTH_USER_MODEL = "users.User"
@@ -124,5 +125,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = "/static/"
-LOGIN_REDIRECT_URL = "home"
-LOGOUT_REDIRECT_URL = "home"
+LOGIN_REDIRECT_URL = "diagnose:home"
+LOGOUT_REDIRECT_URL = "diagnose:home"
+
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_URL = "/static/"
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]

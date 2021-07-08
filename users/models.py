@@ -1,4 +1,8 @@
 from django.db import models
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+from django.conf import settings
+from phonenumber_field.modelfields import PhoneNumberField
 
 from diagnose.models import Illness
 
@@ -6,6 +10,7 @@ from diagnose.models import Illness
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import ugettext_lazy as _
+
 
 # from django.utils import timezone
 
@@ -87,26 +92,39 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 # ==================  User Profile
-# class Profile(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(null=True, blank=True)
+    profile_pic = models.ImageField(null=True, blank=True, upload_to="images/profile/")
+    facebook_url = models.CharField(max_length=255, null=True, blank=True)
+    twitter_url = models.CharField(max_length=255, null=True, blank=True)
+    instagram_url = models.CharField(max_length=255, null=True, blank=True)
+    academic_Title = models.CharField(max_length=100, null=True, blank=True)
+    speciality = models.CharField(max_length=255, null=True, blank=True)
+    employment_history = models.TextField(null=True, blank=True)
+    experience = models.TextField(null=True, blank=True)
+    phone_number = PhoneNumberField(null=True, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
+    Location = models.CharField(max_length=30, blank=True)
 
-#     def __str__(self):
-#         return str(self.user)
+    def __str__(self):
+        return str(self.user)
 
-#     def get_absolute_url(self):
-#         return reverse("home")
+
+def split_speciality(self):
+    return self.speciality.split(",")
 
 
 # ==================  Receiver to create/update when create/update user instance
-# @receiver(post_save, sender=settings.AUTH_USER_MODEL)
-# def create_user_profile(sender, instance, created, **kwargs):
-#     if created:
-#         Profile.objects.create(user=instance)
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
 
 
-# @receiver(post_save, sender=User)
-# def save_user_profile(sender, instance, **kwargs):
-#     instance.profile.save()
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
 
 
 # Without Manager filtering users by their type doesn't work all users have both types

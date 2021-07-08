@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # from django.contrib.auth.admin import UserAdmin
-from .models import User, Patient, Doctor
+from .models import User, Patient, Doctor, Profile
 
 # from django.contrib.auth.forms import (
 #     UserCreationForm,
@@ -16,6 +16,7 @@ from .models import User, Patient, Doctor
 admin.site.register(User)
 admin.site.register(Patient)
 admin.site.register(Doctor)
+admin.site.register(Profile)
 # @admin.register(User)
 # class UserAdmin(UserAdmin):
 #     pass

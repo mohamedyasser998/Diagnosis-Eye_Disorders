@@ -7,14 +7,8 @@ from django import forms
 # from django.forms.widgets import Select
 # from django.forms import ModelForm
 
-from .models import Consults, Comment, MY_CHOICES,Appointment
+from .models import Consults, Comment, MY_CHOICES, Appointment
 from users.models import User
-
-
-# choices = [MY_CHOICES]
-# choices_list = []
-# for item in choices:
-#     choices_list.append(item)
 
 
 class CheckSymptomsForm(forms.ModelForm):
@@ -47,6 +41,7 @@ class CommentForm(forms.ModelForm):
             ),
         }
 
+
 class DiagnosisForm(forms.ModelForm):
     symptoms = forms.MultipleChoiceField(
         widget=forms.CheckboxSelectMultiple,
@@ -63,6 +58,8 @@ class DiagnosisForm(forms.ModelForm):
         widgets = {
             "user": forms.HiddenInput(),
         }
+
+
 class AppointmentForm(forms.ModelForm):
     class Meta:
         model = Appointment

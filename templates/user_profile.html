@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load static %}
+{%block title%}
+    User Profile
+{%endblock title%}
+
+{% block content %}
+<section class="page-title bg-1">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="block text-center">
+          <span class="text-white">Doctor Details</span>
+          <h1 class="text-capitalize mb-5 text-lg">{{ page_user.user.get_full_name}}'s Profile page</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section doctor-single">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4 col-md-6">
+				<div class="doctor-img-block">
+					{% if page_user.profile_pic  %}
+          <img src="{{ page_user.profile_pic.url }}" class="img-fluid w-100" alt="profile_picture">
+        {% else %}
+          <img src="{% static '\img\Unknown_person.jpg' %}" class="img-fluid w-100" alt="profile_picture">
+        {% endif %}
+
+					<div class="info-block mt-4">
+						<h4 class="mb-0">{{ page_user.user.get_full_name}}</h4>
+						{% if page_user.user.type == 'DOCTOR' %}
+						<h6 class="mb-0">{{ profile.academic_Title}}</h4>
+						{% endif %}
+						<h6 class="mb-0"><p>{{ profile.bio}}</p></h4>
+						<ul class="list-inline mt-4 doctor-social-links">
+							<a href="{{ profile.twitter_url }}"><i class="icofont-twitter"></i></a>
+                <a href="{{ profile.facebook_url }}"><i class="icofont-facebook"></i></a>
+                <a href="{{ profile.instagram_url }}"><i class="icofont-instagram"></i></a>
+                <a href="#" class="linkedin"><i class="icofont-linkedin"></i></i></a>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-8 col-md-6">
+				<div class="doctor-details mt-4 mt-lg-0">
+					<h2 class="text-md">Introducing myself</h2>
+					<div class="divider my-4"></div>
+						<p>
+							{% if profile.employment_history %}
+									<p>{{ profile.employment_history }}</p>
+							{% else %}
+									<p>No emloyment history</p>
+							{% endif %}
+						</p>
+					{% comment %} <a href="{% url 'users:appointment-create' user.profile.id%}" class="btn btn-danger">Make an Appoinment<i class="icofont-simple-right ml-2  "></i></a><br><br> {% endcomment %}
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div
+style="background-color: lightgray;">
+
+
+<section class="section doctor-skills">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4">
+			{% if page_user.user.type == 'DOCTOR' %}
+				<h3>My skills</h3>
+				<div class="divider my-4"></div>
+				<p>{{ profile.experience }}</p>
+			</div>
+			<div class="col-lg-4">
+				<div class="skill-list">
+					<h5 class="mb-4">Expertise area</h5>
+					<ul class="list-unstyled department-service">
+					{% if profile.split_speciality != None %}
+					{% for Speciality in profile.split_speciality %}
+						<li><i class="icofont-check mr-2"></i>{{Speciality|cut:"'"|cut:"]"|cut:"["|cut:" "}}</li>
+					{% endfor %}
+					{% endif %}
+					</ul>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="sidebar-widget  gray-bg p-4">
+					<h5 class="mb-4">Make Appoinment</h5>
+
+					<ul class="list-unstyled lh-35">
+					  <li class="d-flex justify-content-between align-items-center">
+					    <a href="#">Monday - Friday</a>
+					    <span>9:00 - 17:00</span>
+					  </li>
+					  <li class="d-flex justify-content-between align-items-center">
+					    <a href="#">Saturday</a>
+					    <span>9:00 - 16:00</span>
+					  </li>
+					  <li class="d-flex justify-content-between align-items-center">
+					    <a href="#">Sunday</a>
+					    <span>Closed</span>
+					  </li>
+					</ul>
+
+					<div class="sidebar-contatct-info mt-4">
+						<p class="mb-0">Need Urgent Help?</p>
+            {% if profile.phone_number %}
+							<h3 class="text-color-2">{{profile.phone_number}}</h3>
+						{% else %}
+							<h3 class="text-color-2">Phone number not provided</h3>
+						{% endif %}
+					</div>
+				</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock content %}

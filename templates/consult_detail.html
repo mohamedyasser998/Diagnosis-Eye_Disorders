@@ -14,13 +14,14 @@
 {% endfor %}
           </ol>
 					{% endif %}
+        <p>{{consults.illness.Treatement}}</p>
     </ol>
   </div>
   <div class="container-fluid">
   {% if not consults.comments.all %}
     <p>No Comments Yet.. </p>
     {% if user.is_authenticated %}
-      <p><a href="{% url 'add_comment' consults.id %}">Add One</a></p>
+      <p><a href="{% url 'diagnose:add_comment' consults.id %}">Add One</a></p>
     {% else %}
     <p><a href="{% url 'login' %}">Login</a> to comment</p>
     {% endif %}

@@ -5,9 +5,11 @@ from django.db import models
 # from users.models import User
 from multiselectfield import MultiSelectField
 from django.utils.translation import ugettext_lazy as _
+
 # from users.models import User
 
 MY_CHOICES = (
+    ("None", "None"),
     (
         "gradual or sudden change in the quality of your vision followed by appearance of straight lines as distorted",
         "gradual or sudden change in the quality of your vision followed by appearance of straight lines as distorted",
@@ -19,20 +21,20 @@ MY_CHOICES = (
     ),
     ("Problem seeing in dim light", "Problem seeing in dim light"),
     (
-        "Objects appearing smaller than their actual size, as viewed with one eye and then the other",
-        "Objects appearing smaller than their actual size, as viewed with one eye and then the other",
+        "Objects appearing smaller than their actual size,as viewed with one eye and then the other",
+        "Objects appearing smaller than their actual size,as viewed with one eye and then the other",
     ),
     (
-        "lacking typical symptoms like pain, tearing or redness of eyes",
-        "lacking typical symptoms like pain, tearing or redness of eyes",
+        "lacking typical symptoms like pain,tearing or redness of eyes",
+        "lacking typical symptoms like pain,tearing or redness of eyes",
     ),
-    ("Blurred, clouded or dim vision", "Blurred, clouded or dim vision"),
+    ("Blurred,clouded or dim vision", "Blurred,clouded or dim vision"),
     ("Problem seeing at night", "Problem seeing at night"),
     (
         "Problem seeing through light and glare",
         "Problem seeing through light and glare",
     ),
-    ("Seeing ‘halos’ around lights", "Seeing ‘halos’ around lights"),
+    ("Seeing halos around lights", "Seeing halos around lights"),
     (
         "Frequently changing contact lens prescription or eyeglasses",
         "Frequently changing contact lens prescription or eyeglasses",
@@ -56,43 +58,11 @@ MY_CHOICES = (
 )
 
 
-# MY_CHOICES2 = (
-#     (1, "Item title 2.1"),
-#     (2, "Item title 2.2"),
-#     (3, "Item title 2.3"),
-#     (4, "Item title 2.4"),
-#     (5, "Item title 2.5"),
-# )
-# from users.models import User
-
-# Create your models here.
-
-
 # class Symptom(models.Model):
 #     Name = models.CharField(max_length=300, unique=True)
 #     Severity = models.CharField(max_length=30)
 #     Illness = models.ManyToManyField(Illness)
 #     User = models.ManyToManyField(User, null=True, blank=True)
-
-
-# ====================================================
-
-# class IntegerRangeField(models.IntegerField):
-#     def __init__(
-#         self, verbose_name=None, name=None, min_value=None, max_value=None, **kwargs
-#     ):
-#         self.min_value, self.max_value = min_value, max_value
-#         models.IntegerField.__init__(self, verbose_name, name, **kwargs)
-
-#     def formfield(self, **kwargs):
-#         defaults = {"min_value": self.min_value, "max_value": self.max_value}
-#         defaults.update(kwargs)
-#         return super(IntegerRangeField, self).formfield(**defaults)
-
-
-# class Medicine(models.Model):
-#     Name = models.CharField(max_length=100, unique=True)
-#     Dosage = IntegerRangeField(min_value=1, max_value=24)
 
 
 class Illness(models.Model):
@@ -120,6 +90,9 @@ class Illness(models.Model):
 class Consults(models.Model):
     user = models.ForeignKey("users.User", on_delete=models.CASCADE)
     symptoms = models.TextField(null=True, blank=True)
+    illness = models.ForeignKey(
+        Illness, on_delete=models.CASCADE, related_name="illness", default="5"
+    )
 
     def __str__(self):
         return str(self.user)
@@ -139,14 +112,19 @@ class Comment(models.Model):
     def __str__(self):
         return "%s - %s" % (self.post, self.author)
 
+
 class Appointment(models.Model):
     date = models.DateField()
     time = models.TimeField()
     status = models.CharField(
         choices=[("Pending", "Pending"), ("Completed", "Completed")], max_length=10
     )
-    patient = models.ForeignKey("users.User", on_delete=models.CASCADE, related_name="patient")
-    doctor = models.ForeignKey("users.User", on_delete=models.CASCADE, related_name="doctor")
+    patient = models.ForeignKey(
+        "users.User", on_delete=models.CASCADE, related_name="patient"
+    )
+    doctor = models.ForeignKey(
+        "users.User", on_delete=models.CASCADE, related_name="doctor"
+    )
 
     def __str__(self):
         return "Patient - {} Doc- {} At {} {}".format(
