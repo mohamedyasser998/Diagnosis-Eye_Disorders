@@ -11,10 +11,7 @@
                 <a href="{% url "diagnose:post_detail" consults.id %}">Consult Detail</a>
               </h2>
               <div class="entry-meta">
-                <ul>
-                  <li class="d-flex align-items-center"><i class="icofont-user"></i>{{consults.user.get_full_name}}</li>
-                  <li class="d-flex align-items-center"><i class="icofont-comment"></i> {{consults.comments.all.count}} Comments</li>
-                </ul>
+
               </div>
               <div class="entry-content">
                 <ul class="list-unstyled department-service">
@@ -26,7 +23,8 @@
                 </ul>
                 {% endif %}
                 <blockquote>
-                  <i class="icofont-quote-left quote-left"></i>
+                
+                  <br><br><br>
                   <p>
                     Suggested Treatment For Your Illness
                   </p>
@@ -35,12 +33,17 @@
                   {% else %}
                   <p>{{consults.illness.Treatement}}</p>
                   {% endif %}
+                 
                   <i class="las la-quote-right quote-right"></i>
                   <i class="icofont-quote-right quote-right"></i>
                 </blockquote>
                 </ul>
               </div>
             </article><!-- End blog entry -->
+             <ul>
+                    <li class="d-flex align-items-center"><i class="icofont-user"></i>{{consults.user.get_full_name}}</li>
+                    <li class="d-flex align-items-center"><i class="icofont-comment"></i> {{consults.comments.all.count}} Comments</li>
+                  </ul>
             <div class="blog-comments">
             <br>
               {% if not consults.comments.all %}
