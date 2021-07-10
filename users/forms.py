@@ -1,5 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
+from django.forms.widgets import Widget
 
 # from django.forms import widgets
 # from django.forms.widgets import Select
@@ -53,7 +54,7 @@ class EditProfileForm(forms.ModelForm):
         widget=forms.Textarea(attrs={"class": "form-control", "rows": 2, "cols": 5}),
         required=False,
     )
-    phone_number = PhoneNumberField()
+    phone_number = PhoneNumberField(required=False)
     facebook_url = forms.CharField(
         widget=forms.TextInput(attrs={"class": "form-control"}), required=False
     )

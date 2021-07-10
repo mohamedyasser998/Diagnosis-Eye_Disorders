@@ -58,13 +58,6 @@ MY_CHOICES = (
 )
 
 
-# class Symptom(models.Model):
-#     Name = models.CharField(max_length=300, unique=True)
-#     Severity = models.CharField(max_length=30)
-#     Illness = models.ManyToManyField(Illness)
-#     User = models.ManyToManyField(User, null=True, blank=True)
-
-
 class Illness(models.Model):
     Name = models.CharField(max_length=300, unique=True)
 

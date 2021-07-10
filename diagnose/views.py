@@ -80,7 +80,7 @@ class CommentCreateView(CreateView):
 
     def get_success_url(self):
         pk = self.kwargs["pk"]
-        return reverse("post_detail", kwargs={"pk": pk})
+        return reverse("diagnose:post_detail", kwargs={"pk": pk})
 
     def get_initial(self):
         initial = super().get_initial()

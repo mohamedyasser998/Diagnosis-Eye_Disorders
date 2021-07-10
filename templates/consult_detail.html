@@ -2,42 +2,71 @@
 {% block title%} Consult Post {% endblock title %}
 
 {% block content%}
-  <div class="container-fluid">
-    <ol class="list-unstyled department-service">
-    {% if consults.split_symptoms != None %}
-    <h1>{{consults.user.get_full_name}}</h1>
-       <ol>
-    {% for Symptoms in consults.split_symptoms  %}
+<section id="blog" class="blog">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 entries">
+            <article class="entry entry-single">
+              <h2 class="entry-title">
+                <a href="{% url "diagnose:post_detail" consults.id %}">Consult Detail</a>
+              </h2>
+              <div class="entry-meta">
+                <ul>
+                  <li class="d-flex align-items-center"><i class="icofont-user"></i>{{consults.user.get_full_name}}</li>
+                  <li class="d-flex align-items-center"><i class="icofont-comment"></i> {{consults.comments.all.count}} Comments</li>
+                </ul>
+              </div>
+              <div class="entry-content">
+                <ul class="list-unstyled department-service">
+                {% if consults.split_symptoms != None %}
+                  <ul>
+                  {% for Symptoms in consults.split_symptoms  %}
+                  <li><i class="icofont-check mr-2"></i>{{Symptoms|cut:"'"|cut:"]"|cut:"["}}</li>
+                  {% endfor %}
+                </ul>
+                {% endif %}
+                <blockquote>
+                  <i class="icofont-quote-left quote-left"></i>
+                  <p>
+                    Suggested Treatment For Your Illness
+                  </p>
+                  {% if consults.illness.Treatement == "Everything is fine" %}
+                  <p>You should wait for doctors' opinion</p>
+                  {% else %}
+                  <p>{{consults.illness.Treatement}}</p>
+                  {% endif %}
+                  <i class="las la-quote-right quote-right"></i>
+                  <i class="icofont-quote-right quote-right"></i>
+                </blockquote>
+                </ul>
+              </div>
+            </article><!-- End blog entry -->
+            <div class="blog-comments">
+            <br>
+              {% if not consults.comments.all %}
+                {% if user.is_authenticated %}
+                <p><a href="{% url 'diagnose:add_comment' consults.id %}">Add One</a></p> <br>
+                {% else %}
+                  <p><a href="{% url 'login' %}">Login</a> to comment</p>
+                {% endif %}
+              {% else %}
+                {% if user.is_authenticated%}
+                <a href="{% url 'diagnose:add_comment' consults.id %}">Add Comment</a><br><br>
+                {% else %}
+                <p><a href="{% url 'login' %}">Login</a> to comment</p>
+              {% endif %}
+                {% for comment in consults.comments.all reversed %}
+                {% if comment.author.type == "DOCTOR"%}
+                  <h5 style="margin:20px"><a href="{% url 'users:show_profile' comment.author.profile.id%}">{{comment.author.get_full_name}}</a></h5>
+                {% else %}
+                  <h5 style="margin:20px">{{comment.author.get_full_name}}</h5>
+                {% endif %}
+                <p style="margin:20px">{{comment.body}}</p>
+                {% endfor %}
+              {% endif %}
+            </div><!-- End blog comments -->
 
-    <li><i class="icofont-check mr-2"></i>{{Symptoms|cut:"'"|cut:"]"|cut:"["}}</li>
-
-{% endfor %}
-          </ol>
-					{% endif %}
-      <h3>Suggestion Treat For Your Illnes </h3>
-
-        <p>{{consults.illness.Treatement}}</p>
-    </ol>
-  </div>
-  <div class="container-fluid">
-  {% if not consults.comments.all %}
-    <p>No Comments Yet.. </p>
-    {% if user.is_authenticated %}
-      <p><a href="{% url 'diagnose:add_comment' consults.id %}">Add One</a></p>
-    {% else %}
-    <p><a href="{% url 'login' %}">Login</a> to comment</p>
-    {% endif %}
-  {% else %}
-    {% if user.is_authenticated%}
-      <a href="{% url 'add_comment' consults.id %}">Add Comment</a><br>
-      {% else %}
-      <p><a href="{% url 'login' %}">Login</a> to comment</p>
-    {% endif %}
-      {% for comment in consults.comments.all reversed %}
-      <h5>{{comment.author.get_full_name}}</h5>
-      <h6>{{comment.body}}</h6>
-      {% endfor %}
-  {% endif %}
-  </div>
+        </div>
+      </div>
+    </section><!-- End Blog Section -->
 {% endblock content%}
-

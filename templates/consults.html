@@ -3,27 +3,58 @@
 {% block title%} Consults {% endblock title %}
 
 {% block content%}
-<section>
-<div class="container-fluid">
-  <div class="row row-cols-3">
-    {% for consult in object_list %}
-      <div class="col"><a href="{% url 'diagnose:post_detail' consult.id%}">{{ consult.user.get_full_name }}</a>
-      <br>
-          <ul>
-           {% for cons in consult.symptoms|split:", " %}
-
-						<li>{{cons|cut:"'"|cut:"]"|cut:"["}}</li>
-
-          {% endfor %}
-              </ul>
-          {% if consult.illness.Name == "None" %}
-          <p>You are fine</p>
-          {% else %}
-          <p>{{ consult.illness.Name }}</p>
-          {% endif %}
+<section id="breadcrumbs" class="breadcrumbs">
+      <div class="breadcrumb-hero">
+        <div class="container">
+          <div class="breadcrumb-hero">
+            <h2 style="text-align: center;">Blog</h2>
+          </div>
+        </div>
       </div>
-    {% endfor %}
-  </div>
-</div>
 </section>
+
+<section id="blog" class="blog">
+      <div class="container">
+
+        <div class="row">
+
+          {% for consult in object_list %}
+          <div class="col-lg-4  col-md-6 d-flex align-items-stretch" data-aos="fade-up">
+            <article class="entry">
+              <h2 class="entry-title">
+                {% if consult.illness.Name == "None" %}
+                  <p><a href="{% url 'diagnose:post_detail' consult.id%}">No illness is predicted</a></p>
+                {% else %}
+                  <p><a href="{% url 'diagnose:post_detail' consult.id%}">{{ consult.illness.Name }}</a></p>
+                {% endif %}
+              </h2>
+
+              <div class="entry-meta">
+                <ul>
+                  {% if consult.user.type == "DOCTOR"%}
+                    <li class="d-flex align-items-center"><i class="icofont-user"></i> <a href="{% url 'users:show_profile' consult.user.profile.id%}">{{ consult.user.get_full_name }}</a></li>
+                  {% else %}
+                    <li class="d-flex align-items-center"><i class="icofont-user"></i>{{ consult.user.get_full_name }}</li>
+                  {% endif %}
+                </ul>
+              </div>
+
+              <div class="entry-content">
+                <p>
+                  <ul>
+                  {% for cons in consult.symptoms|split:", " %}
+						        <li>{{cons|cut:"'"|cut:"]"|cut:"["}}</li>
+                  {% endfor %}
+                  </ul>
+                </p>
+                <div class="read-more">
+                  <a href="{% url 'diagnose:post_detail' consult.id%}">Read More</a>
+                </div>
+              </div>
+            </article>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
 {% endblock content%}

@@ -1,13 +1,16 @@
 {% extends 'base.html' %}
+{% load bootstrap3 %}
 {%block title%}
   Register
 {%endblock title%}
 
 {% block content %}
-<div class="form-group"></div>
-    <form action="" method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" name="" value="Register" class= "btn btn-secondary">
+<div class="container">
+    <h2>Create an Appointment</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <input type="submit" value="Sign Up" class="btn btn-success btn-lg btn-block">
     </form>
-  </div>
+</div>
 {% endblock %}
