@@ -121,7 +121,7 @@ class DiagnosisCreateView(LoginRequiredMixin, CreateView):
                     print(count)
                     messages.success(request, "you might have " + str(name))
                     return redirect("/diag/")
-        messages.success(request, "Appointment done successfully")
+        messages.success(request, "You look fine, No serious Symptoms")
         return redirect("/diag/")
 
 
